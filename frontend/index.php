@@ -24,9 +24,8 @@
     </div>
 </nav>
 
-<div class="container">
+<div class="container-fluid">
     <div class="row justify-content-center">
-
         <form name="add-spend-form" method="post" id="add-spend-form">
             <p class="h4 mb-4 text-center">Add Purchase</p>
             <div class="row">
@@ -41,7 +40,7 @@
             </div>
             <div class="row">
                 <div class="col">
-                    <label for="purchaseAmount">Purchase Name:</label>
+                    <label for="purchaseAmount">Purchase Amount:</label>
                     <input id="purchaseAmount" name="purchaseAmount" type="number" class="form-control" placeholder="$">
                 </div>
                 <div class="col">
@@ -56,16 +55,20 @@
                 <label for="taskNotes">Notes: </label>
                 <textarea type="textarea" id="taskNotes" name="taskNotes" class="form-control" rows="3" cols="10"></textarea>
             </div>
-            <button class="btn btn-primary btn-lg btn-block" type="submit" name="submit">Submit</button>
+            <button class="btn btn-primary btn-lg btn-block" type="submit" name="submit">Add Spend</button>
         </form>
-
+    </div>
+</div>
+<hr>
+<div class="container-fluid">
+    <div class="row justify-content-center">
         <form name="add-category-form" method="post" id="add-category-form">
             <p class="h4 mb-4 text-center">Add Category</p>
             <div class="form-group">
                 <label for="categoryName">Category Name:</label>
                 <input id="categoryName" name="categoryName" type="text" class="form-control" placeholder="Category Name">
             </div>
-            <button class="btn btn-primary btn-lg btn-block" type="submit" name="submit">Submit</button>
+            <button class="btn btn-primary btn-lg btn-block" type="submit" name="submit">Add Category</button>
         </form>
     </div>
 </div>
