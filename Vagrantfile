@@ -32,7 +32,7 @@ Vagrant.configure("2") do |config|
   config.vm.define "backendwebserver" do |backendwebserver|
 	backendwebserver.vm.hostname = "backendwebserver"
 	backendwebserver.vm.network "forwarded_port", guest: 80, host: 10122, host_ip: "127.0.0.1"
-	backendwebserver.vm.network "private_network", ip: "192.168.2.12"
+	backendwebserver.vm.network "private_network", ip: "192.168.33.12"
 
 	backendwebserver.vm.synced_folder ".", "/vagrant", owner: "vagrant", group: "vagrant", mount_options: ["dmode=775,fmode=777"]
 
@@ -49,4 +49,30 @@ Vagrant.configure("2") do |config|
       service apache2 reload
 	SHELL
 	end
+	
+  config.vm.define "databaseserver" do |databaseserver|
+	databaseserver.vm.hostname = "databaseserver"
+	databaseserver.vm.network "private_network", ip: "192.168.33.14"
+	databaseserver.vm.synced_folder ".", "/vagrant", owner: "vagrant", mount_options: ["dmode=775,fmode=777"]
+	
+	databaseserver.vm.provision "shell", inline: <<-SHELL
+		apt-get update
+		export MYSQL_PWD='AlexanderRoot'
+		
+		echo "mysql-server mysql-server/root_password password $MYSQL_PWD" | debconf-set-selections 
+		echo "mysql-server mysql-server/root_password_again password $MYSQL_PWD" | debconf-set-selections
+
+		apt-get -y install mysql-server
+		
+		echo "CREATE DATABASE fvision;" | mysql
+		echo "CREATE USER 'webuser'@'%' IDENTIFIED BY 'Alexander';" | mysql
+		echo "GRANT ALL PRIVILEGES ON fvision.* TO 'webuser'@'%'" | mysql
+		
+		export MYSQL_PWD='Alexander'
+		cat /vagrant/setup-db.sql | mysql -u webuser fvision
+		sed -i'' -e '/bind-address/s/127.0.0.1/0.0.0.0/' /etc/mysql/mysql.conf.d/mysqld.cnf
+		service mysql restart
+	SHELL
+  end
+		
 end

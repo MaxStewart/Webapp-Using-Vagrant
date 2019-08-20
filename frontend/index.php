@@ -11,6 +11,24 @@
 </head>
 <body>
 
+<?php
+
+$db_host = '192.168.33.14';
+$db_name = 'fvision';
+$db_user = 'webuser';
+$db_pass = 'Alexander';
+
+$pdo_dsn = "mysql:host=$db_host;dbname=$db_name";
+
+$pdo = new PDO($pdo_dsn, $db_user, $db_pass);
+
+$query = $pdo->query("SELECT * FROM categories");
+
+while($row = $query->fetch()){
+    echo "<tr><td>".$row["name"]."</td></tr>\n";
+}
+?>
+
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="#">SpendTrack Frontend</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
