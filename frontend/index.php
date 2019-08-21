@@ -18,14 +18,45 @@ $db_name = 'fvision';
 $db_user = 'webuser';
 $db_pass = 'Alexander';
 
+$categoryErrorString = "";
+
 $pdo_dsn = "mysql:host=$db_host;dbname=$db_name";
 
 $pdo = new PDO($pdo_dsn, $db_user, $db_pass);
 
+/*
 $query = $pdo->query("SELECT * FROM categories");
 
 while($row = $query->fetch()){
     echo "<tr><td>".$row["name"]."</td></tr>\n";
+}*/
+
+if(isset($_POST['submitCategories'])){
+
+    // Check the submission was not empty
+    if($_POST['categoryName'] === ""){
+        $categoryErrorString = "Please enter a value";
+    }
+    // Submission contains text we can check
+    else {
+        $isValid = true;
+
+        $query = $pdo->query("SELECT * FROM categories");
+
+        // Loop and check the category doesn't exist in DB
+        while ($row = $query->fetch()) {
+            $dbresult = strtolower($row["name"]);
+            $match = strtolower($_POST['categoryName']);
+            if ($dbresult === $match) {
+                $categoryErrorString = "Category already exists";
+                $isValid = false;
+            }
+        }
+        if ($isValid) {
+            $sql = "INSERT INTO categories VALUES ('$_POST[categoryName]')";
+            $pdo->exec($sql);
+        }
+    }
 }
 ?>
 
@@ -64,8 +95,12 @@ while($row = $query->fetch()){
                 <div class="col">
                     <label for="category">Category:</label>
                     <select name="category" class="form-control">
-                        <option value="food">Food</option>boot
-                        <option value="meh">Meh</option>
+                        <?php
+                            $query = $pdo->query("SELECT * FROM categories");
+                            while ($row = $query->fetch()) {
+                                echo  "<option value=$row[name]>$row[name]</option>";
+                            }
+                        ?>
                     </select>
                 </div>
             </div>
@@ -86,7 +121,12 @@ while($row = $query->fetch()){
                 <label for="categoryName">Category Name:</label>
                 <input id="categoryName" name="categoryName" type="text" class="form-control" placeholder="Category Name">
             </div>
-            <button class="btn btn-primary btn-lg btn-block" type="submit" name="submit">Add Category</button>
+            <?php
+                if($categoryErrorString !== ""){
+                    echo "<p>$categoryErrorString</p>";
+                }
+            ?>
+            <button class="btn btn-primary btn-lg btn-block" type="submit" name="submitCategories">Add Category</button>
         </form>
     </div>
 </div>
