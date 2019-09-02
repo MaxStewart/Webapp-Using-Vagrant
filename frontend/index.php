@@ -9,11 +9,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
-    <!--
-    <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <script src="../vendor/jquery/jquery.min.js"></script>
-    <script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
-    -->
 </head>
 <body>
 
@@ -28,15 +23,7 @@ $categoryErrorString = "";
 $spendErrorString = "";
 
 $pdo_dsn = "mysql:host=$db_host;dbname=$db_name";
-
 $pdo = new PDO($pdo_dsn, $db_user, $db_pass);
-
-/*
-$query = $pdo->query("SELECT * FROM categories");
-
-while($row = $query->fetch()){
-    echo "<tr><td>".$row["name"]."</td></tr>\n";
-}*/
 
 if(isset($_POST['submitSpend'])){
     $isValid = true;
@@ -59,8 +46,6 @@ if(isset($_POST['submitSpend'])){
         $amount = $_POST['purchaseAmount'];
         $category = $_POST['category'];
         $notes = $_POST['purchaseNotes'];
-        echo $date;
-
         $sql = "INSERT INTO purchases VALUES ('$name','$date','$amount','$category','$notes')";
         $pdo->exec($sql);
     }
@@ -130,7 +115,7 @@ if(isset($_POST['submitCategories'])){
                 <div class="text-center">
                     <img src="money.png" class="rounded" style="padding-bottom: 10px">
                 </div>
-                <button class="btn btn-primary btn-lg btn-block" name="goToTracking">Graph your spending</button>
+                <button class="btn btn-primary btn-lg btn-block" onclick="window.location.href='http://127.0.0.1:10122/'" name="goToTracking">Graph your spending</button>
             </div>
         </div>
         <hr>

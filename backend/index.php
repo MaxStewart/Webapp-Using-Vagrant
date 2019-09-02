@@ -6,18 +6,24 @@ $db_pass = 'Alexander';
 
 $categoryErrorString = "";
 $spendErrorString = "";
-
-$pdo_dsn = "mysql:host=$db_host;dbname=$db_name";
-
-$pdo = new PDO($pdo_dsn, $db_user, $db_pass);
-
+$interval = "yearly";
 $dataPoints = array();
 $yearTotal = array();
 
+$pdo_dsn = "mysql:host=$db_host;dbname=$db_name";
+$pdo = new PDO($pdo_dsn, $db_user, $db_pass);
 $query = $pdo->query("SELECT * FROM purchases");
-$interval = "yearly";
-if($interval === "monthly"){
 
+if(isset($_POST['submitInterval'])){
+    $interval = $_POST['interval'];
+}
+
+if($interval === "monthly"){
+    while($row = $query->fetch()){
+        $date = explode("-", $row["date"]);
+        $input = $date[1] . "/" . $date[0];
+        $yearTotal[$input] += $row["amount"];
+    }
 }
 else {
     while($row = $query->fetch()){
@@ -27,18 +33,8 @@ else {
 }
 
 foreach ($yearTotal as $key => $value) {
-    array_push($dataPoints, array("y" => $value, "label" => $key));
+    array_push($dataPoints, array("y" => $value, "label" => $key, "toolTipContent" => "Date: " . $key . "<br> Spent: $" . $value));
 }
-
-/*$dataPoints = array(
-    array("y" => 25, "label" => "Sunday"),
-    array("y" => 15, "label" => "Monday"),
-    array("y" => 25, "label" => "Tuesday"),
-    array("y" => 5, "label" => "Wednesday"),
-    array("y" => 10, "label" => "Thursday"),
-    array("y" => 0, "label" => "Friday"),
-    array("y" => 20, "label" => "Saturday")
-);*/
 
 ?>
 
@@ -66,7 +62,7 @@ foreach ($yearTotal as $key => $value) {
         }
     </script>
 
-    <title>Backend</title>
+    <title>Graphing</title>
 
     <!-- Bootstrap -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -74,14 +70,6 @@ foreach ($yearTotal as $key => $value) {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
-    <!-- Chart -->
-
-
-    <!--
-    <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <script src="../vendor/jquery/jquery.min.js"></script>
-    <script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
-    -->
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -97,9 +85,10 @@ foreach ($yearTotal as $key => $value) {
     </div>
 </nav>
 
-<h1>Spending Graph</h1>
-<p><a href="http://127.0.0.1:10222/">Add Spending</a></p>
-
+<div class="container">
+    <h1>Spending Graph</h1>
+    <button class="btn btn-primary btn-lg btn-block" onclick="window.location.href='http://127.0.0.1:10222/'" name="goToTracking">Add Spending</button>
+</div>
 <div class="container">
     <div class="row justify-content-center">
         <form name="add-spend-form" method="post" id="add-spend-form">
