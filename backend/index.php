@@ -25,6 +25,11 @@ if($interval === "monthly"){
         $yearTotal[$input] += $row["amount"];
     }
 }
+elseif ($interval === "category"){
+    while($row = $query->fetch()){
+        $yearTotal[$row["category"]] += $row["amount"];
+    }
+}
 else {
     while($row = $query->fetch()){
         $year = explode("-", $row["date"]);
@@ -96,8 +101,9 @@ foreach ($yearTotal as $key => $value) {
             <div class="form-row">
                 <div class="col">
                     <select name="interval" class="form-control form-control-sm">
-                        <option value="monthly">Monthly</option>
-                        <option value="yearly">Yearly</option>
+                        <option value="monthly" <?php if($interval === "monthly") echo "selected"; ?>>Monthly</option>
+                        <option value="yearly" <?php if($interval === "yearly") echo "selected"; ?>>Yearly</option>
+                        <option value="category" <?php if($interval === "category") echo "selected"; ?>>Category</option>
                     </select>
                 </div>
                 <div class="col">
