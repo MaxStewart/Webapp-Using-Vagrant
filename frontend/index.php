@@ -2,13 +2,11 @@
 <html>
 <head>
 <title>Frontend</title>
-
     <!-- Bootstrap -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-
 </head>
 <body>
 
@@ -81,7 +79,7 @@ if(isset($_POST['submitCategories'])){
 }
 ?>
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <a class="navbar-brand" href="#">SpendTrack</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -101,20 +99,15 @@ if(isset($_POST['submitCategories'])){
 <div class="container-fluid">
     <div class="justify-content-center">
         <hr>
-        <h1>Spending tracking made easy</h1>
-        <h2>Welcome</h2>
+        <h1 class="text-center">Spending tracking made easy</h1>
         <div class="row">
-            <div class="col">
+            <div class="container">
+                <h2>Welcome</h2>
                 <p>SpendTrack is a helpful tool that will track your spending and will graph your spending habits
                     to your desired timescale, be that weekly, monthly, or yearly.</p>
                 <p>Click below on Add Spending to add a purchase and start your tracking. Or select Add Category to
                     add another spending category to select from when you add a purchase</p>
                 <p>Remember, you can only track what you put in!</p>
-            </div>
-            <div class="col">
-                <div class="text-center">
-                    <img src="money.png" class="rounded" style="padding-bottom: 10px">
-                </div>
                 <button class="btn btn-primary btn-lg btn-block" onclick="window.location.href='http://127.0.0.1:10122/'" name="goToTracking">Graph your spending</button>
             </div>
         </div>
