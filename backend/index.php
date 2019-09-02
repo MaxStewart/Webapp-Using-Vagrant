@@ -1,6 +1,36 @@
 <?php
+$db_host = '192.168.33.14';
+$db_name = 'fvision';
+$db_user = 'webuser';
+$db_pass = 'Alexander';
 
-$dataPoints = array(
+$categoryErrorString = "";
+$spendErrorString = "";
+
+$pdo_dsn = "mysql:host=$db_host;dbname=$db_name";
+
+$pdo = new PDO($pdo_dsn, $db_user, $db_pass);
+
+$dataPoints = array();
+$yearTotal = array();
+
+$query = $pdo->query("SELECT * FROM purchases");
+$interval = "yearly";
+if($interval === "monthly"){
+
+}
+else {
+    while($row = $query->fetch()){
+        $year = explode("-", $row["date"]);
+        $yearTotal[$year[0]] += $row["amount"];
+    }
+}
+
+foreach ($yearTotal as $key => $value) {
+    array_push($dataPoints, array("y" => $value, "label" => $key));
+}
+
+/*$dataPoints = array(
     array("y" => 25, "label" => "Sunday"),
     array("y" => 15, "label" => "Monday"),
     array("y" => 25, "label" => "Tuesday"),
@@ -8,7 +38,7 @@ $dataPoints = array(
     array("y" => 10, "label" => "Thursday"),
     array("y" => 0, "label" => "Friday"),
     array("y" => 20, "label" => "Saturday")
-);
+);*/
 
 ?>
 
@@ -21,10 +51,10 @@ $dataPoints = array(
 
             var chart = new CanvasJS.Chart("chartContainer", {
                 title: {
-                    text: "Push-ups Over a Week"
+                    text: "Spending"
                 },
                 axisY: {
-                    title: "Number of Push-ups"
+                    title: "$ Spent"
                 },
                 data: [{
                     type: "line",
@@ -54,29 +84,6 @@ $dataPoints = array(
     -->
 </head>
 <body>
-
-<?php
-
-$db_host = '192.168.33.14';
-$db_name = 'fvision';
-$db_user = 'webuser';
-$db_pass = 'Alexander';
-
-$categoryErrorString = "";
-$spendErrorString = "";
-
-$pdo_dsn = "mysql:host=$db_host;dbname=$db_name";
-
-$pdo = new PDO($pdo_dsn, $db_user, $db_pass);
-
-/*
-$query = $pdo->query("SELECT * FROM categories");
-
-while($row = $query->fetch()){
-    echo "<tr><td>".$row["name"]."</td></tr>\n";
-}*/
-?>
-
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="#">SpendTrack</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -100,10 +107,8 @@ while($row = $query->fetch()){
             <div class="form-row">
                 <div class="col">
                     <select name="interval" class="form-control form-control-sm">
-                        <option value="weekly">Weekly</option>
-                        <option value="daily">Daily</option>
+                        <option value="monthly">Monthly</option>
                         <option value="yearly">Yearly</option>
-                        <option value="lifetime">Lifetime</option>
                     </select>
                 </div>
                 <div class="col">
@@ -114,8 +119,11 @@ while($row = $query->fetch()){
     </div>
 </div>
 
-<div id="chartContainer" style="height: 370px; width: 100%;"></div>
-<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+<div class="container">
+    <div id="chartContainer" style="height: 370px; width: 100%;"></div>
+    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+</div>
+
 
 </body>
 </html>

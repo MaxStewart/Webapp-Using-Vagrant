@@ -59,6 +59,10 @@ if(isset($_POST['submitSpend'])){
         $amount = $_POST['purchaseAmount'];
         $category = $_POST['category'];
         $notes = $_POST['purchaseNotes'];
+        echo $date;
+
+        $sql = "INSERT INTO purchases VALUES ('$name','$date','$amount','$category','$notes')";
+        $pdo->exec($sql);
     }
 }
 
@@ -106,7 +110,7 @@ if(isset($_POST['submitCategories'])){
 </nav>
 
 <div class="text-center">
-    <img src="banner.png" class="rounded" width="90%">
+    <img src="banner.png" class="rounded" style="margin-top: 20px">
 </div>
 
 <div class="container-fluid">
