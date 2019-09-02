@@ -2,7 +2,8 @@ CREATE TABLE purchases (
     name VARCHAR(50) NOT NULL,
     date DATE NOT NULL,
     amount VARCHAR(10) NOT NULL,
-    category VARCHAR(50) NOT NULL
+    category VARCHAR(50) NOT NULL,
+    notes VARCHAR(100)
 );
 
 CREATE TABLE categories (
