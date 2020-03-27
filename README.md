@@ -1,5 +1,4 @@
-# COSC349-Project
- Assignment 1 of COSC 349. Establishing and connecting 3 virtual machines
+Project establishing and connecting 3 virtual machines
  find report.pdf for all information on this project.
 
  Run "vagrant up" to bring up the vms
