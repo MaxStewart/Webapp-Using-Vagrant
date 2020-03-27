@@ -1,5 +1,5 @@
-Project establishing and connecting 3 virtual machines
- find report.pdf for all information on this project.
+This project uses vagrant to initialize and link two webservers and one database 
+Find report.pdf for all information on this project.
 
  Run "vagrant up" to bring up the vms
  
